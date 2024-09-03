@@ -16,11 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Stack
-      run: |
-        curl -sSL https://get.haskellstack.org/ | sh
-        stack --version
-
     - name: Cache Stack and Cabal
       uses: actions/cache@v3
       with:
