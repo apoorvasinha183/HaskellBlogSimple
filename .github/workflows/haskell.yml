@@ -16,10 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Haskell with Stack
-      uses: haskell/actions/setup-stack@v1
-      with:
-        stack-version: '2.7.3' # Specify the version of Stack you need
+    - name: Install Stack
+      run: |
+        curl -sSL https://get.haskellstack.org/ | sh
+        stack --version
 
     - name: Cache Stack and Cabal
       uses: actions/cache@v3
