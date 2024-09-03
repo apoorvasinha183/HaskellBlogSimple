@@ -22,16 +22,35 @@ jobs:
         path: |
           ~/.stack
           ~/.local/bin
-        key: ${{ runner.os }}-build-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/stack.yaml') }}
+        key: ${{ runner.os }}-build-${{ hashFiles('blog-project/**/*.cabal') }}-${{ hashFiles('blog-project/stack.yaml') }}
         restore-keys: |
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
+    - name: Install Stack (if needed)
+      run: |
+        if ! command -v stack &> /dev/null; then
+          curl -sSL https://get.haskellstack.org/ | sh
+        fi
+
+    - name: Check Stack Version
+      run: stack --version
+      working-directory: blog-project
+
+    - name: Verify Project Structure
+      run: |
+        ls -al
+        cat stack.yaml
+      working-directory: blog-project
+
     - name: Install dependencies
       run: stack setup && stack build --only-dependencies
+      working-directory: blog-project
 
     - name: Build
       run: stack build
+      working-directory: blog-project
 
     - name: Run tests
       run: stack test
+      working-directory: blog-project
